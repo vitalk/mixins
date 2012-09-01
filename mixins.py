@@ -45,6 +45,7 @@ class UserMixin(object):
     True
 
     """
+    # default password salt size(32)
     SALT_SIZE = 1<<5
 
     def __init__(self, name, password=None):
