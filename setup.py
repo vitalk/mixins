@@ -12,6 +12,9 @@ version = re.search("__version__ = '([^']+)'",
 setup(name='mixins',
       author='Vital Kudzelka',
       author_email='vital.kudzelka@gmail.com',
-      version=version
       description='A python module that contains a some useful mixins.',
+      version=version,
+      tests_require=['Attest'],
+      test_suite='tests.mixin',
+      test_loader='attest:auto_reporter.test_loader',
 )

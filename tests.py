@@ -1,39 +1,43 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import unittest
-import doctest
+from attest import Tests, assert_hook, raises
 
-from mixins import UserMixin
-
-
-class User(UserMixin):
-    pass
+from mixins import *
 
 
-class TestMixins(unittest.TestCase):
+mixin = Tests()
 
-    def setUp(self):
+
+@mixin.test
+def user_mixin():
+    class User(UserMixin):
         pass
 
-    def tearDown(self):
+    user = User(name='vital')
+    assert user.name == 'vital'
+    # while password not set raise assertion error on access
+    with raises(AssertionError):
+        assert user.password
+        assert user.verify_password('oops')
+
+    user.password = 'so secret'
+    assert user.verify_password('so secret')
+    assert not user.verify_password('wrong')
+
+
+@mixin.test
+def activation_mixin():
+    class User(ActivationMixin):
         pass
 
-    def test_usermixin(self):
-        """Test user mixin."""
-        user = User(name='vital')
-        self.assertEqual(user.name, 'vital')
-        self.assertRaises(AssertionError, user.verify_password, 'secret')
-        user.password = 'secret'
-        self.assertEqual(user.verify_password('secret'), True)
-        self.assertEqual(user.verify_password('oops'), False)
+    user = User()
+    assert user.is_active
+    assert user.activation_key is None
 
-
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestMixins))
-    suite.addTest(doctest.DocFileSuite('mixins.py', globs=globals()))
-    return suite
+    user.is_active = False
+    assert user.is_active == False
+    assert user.activation_key is not None
 
 
 if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+    mixin.main()
