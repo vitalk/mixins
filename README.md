@@ -1,7 +1,7 @@
 # mixins
 
-A python module that contains a useful mixins. Sadly now it contains only user
-authentication mixin.
+A python module that contains a useful mixins. It include user authentication
+mixin and user activation mixin.
 
 ## UserMixin
 
@@ -12,6 +12,10 @@ property.
 It's possible to keep password empty, this is useful if you don't manage
 password auth internally(maybe thought openid?). But if you try to access
 the password then assertion raises.
+
+## ActivationMixin
+
+This class provides simple activation properties to base model.
 
 ## Copyright
 

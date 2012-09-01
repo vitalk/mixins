@@ -12,6 +12,6 @@ version = re.search("__version__ = '([^']+)'",
 setup(name='mixins',
       author='Vital Kudzelka',
       author_email='vital.kudzelka@gmail.com',
-      description='A python module that contains a user authentication mixin.',
       version=version
+      description='A python module that contains a some useful mixins.',
 )

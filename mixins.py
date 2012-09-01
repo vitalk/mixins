@@ -81,3 +81,41 @@ class UserMixin(object):
         return salt + sha1(to_hash).hexdigest()
 
 __all__.append('UserMixin')
+
+
+class ActivationMixin(object):
+    """This class provide simple activation properties to base model.
+
+    >>> class User(ActivationMixin):
+    ...     pass
+    ...
+    >>> user = User()
+    >>> user.is_active
+    True
+
+    If user is not active, then the user property `activation_key` contains
+    random token.
+
+    >>> user.is_active = False
+    >>> user.activation_key is not None
+    True
+
+    """
+    # default activation token length(32)
+    ACTIVATION_TOKEN_LENGTH = 32
+
+    def __init__(self):
+        self.activation_key = None
+
+    @property
+    def is_active(self):
+        return self.activation_key is None
+
+    @is_active.setter
+    def is_active(self, value):
+        if value:
+            self.activation_key = value
+        else:
+            self.activation_key = randstr(self.ACTIVATION_TOKEN_LENGTH)
+
+__all__.append('ActivationMixin')
