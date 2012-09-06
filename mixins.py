@@ -115,7 +115,7 @@ class ActivationMixin(object):
     @is_active.setter
     def is_active(self, value):
         if value:
-            self.activation_key = value
+            self.activation_key = None
         else:
             self.activation_key = randstr(self.ACTIVATION_TOKEN_LENGTH)
 

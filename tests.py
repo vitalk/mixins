@@ -38,6 +38,10 @@ def activation_mixin():
     assert user.is_active == False
     assert user.activation_key is not None
 
+    user.is_active = True
+    assert user.is_active
+    assert user.activation_key is None
+
 
 if __name__ == '__main__':
     mixin.main()
