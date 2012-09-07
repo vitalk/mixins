@@ -43,5 +43,17 @@ def activation_mixin():
     assert user.activation_key is None
 
 
+@mixin.test
+def gravatar_mixin():
+    class User(GravatarMixin):
+        GRAVATAR_FALLBACK = 'monsterid'
+        GRAVATAR_DEFAULT_SIZE = 128
+
+    user = User('email@example.com')
+    GRAVATAR_URL = 'http://www.gravatar.com/avatar/5658ffccee7f0ebfda2b226238b1eb6e?s=128&d=monsterid'
+    assert user.avatar_url == GRAVATAR_URL
+    assert user.get_gravatar_url() == GRAVATAR_URL
+
+
 if __name__ == '__main__':
     mixin.main()

@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import random
-from hashlib import sha1
+from urllib import urlencode
+from hashlib import sha1, md5
 
 
-__all__ = []
 __version__ = '0.2'
+__all__ = ['randstr', 'UserMixin', 'ActivationMixin', 'GravatarMixin']
 
 
 def randstr(len, reallyrandom=False):
@@ -81,8 +82,6 @@ class UserMixin(object):
         to_hash = to_hash.encode('utf-8')
         return salt + sha1(to_hash).hexdigest()
 
-__all__.append('UserMixin')
-
 
 class ActivationMixin(object):
     """This class provide simple activation properties to base model.
@@ -119,4 +118,34 @@ class ActivationMixin(object):
         else:
             self.activation_key = randstr(self.ACTIVATION_TOKEN_LENGTH)
 
-__all__.append('ActivationMixin')
+
+class GravatarMixin(object):
+    """This class provide methods to get gravatar image.
+
+    >>> class User(GravatarMixin):
+    ...     pass
+    >>> user = User(email='email@example.com')
+    >>> user.avatar_url
+    'http://www.gravatar.com/avatar/5658ffccee7f0ebfda2b226238b1eb6e?s=48&d=mm'
+    """
+    GRAVATAR_URL = 'http://www.gravatar.com/avatar'
+    GRAVATAR_FALLBACK = 'mm'
+    GRAVATAR_DEFAULT_SIZE = 48
+
+    def __init__(self, email):
+        self.email = email
+
+    def get_gravatar_url(self, size=None):
+        """Returns the gravatar URL."""
+        gravatar_url = '%(url)s/%(hash)s?' % {
+            'url': self.GRAVATAR_URL,
+            'hash': md5(self.email.encode('utf8').lower()).hexdigest()
+        }
+        return gravatar_url + urlencode({
+            'd': self.GRAVATAR_FALLBACK,
+            's': size or self.GRAVATAR_DEFAULT_SIZE
+        })
+
+    @property
+    def avatar_url(self):
+        return self.get_gravatar_url()
