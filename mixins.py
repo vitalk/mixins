@@ -26,7 +26,7 @@ class UserMixin(object):
     property.
 
     It's possible to keep password empty, this is useful if you don't manage
-    password auth internally(maybe thought openid?). But if you try to access
+    password auth internally(maybe through openid?). But if you try to access
     the password then assertion raises.
 
     >>> user = User(name='vital')

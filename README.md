@@ -1,6 +1,6 @@
 # mixins
 
-A python module that contains a useful mixins. It include user authentication
+A python module that contains a useful mixins. It includes user authentication
 mixin and user activation mixin.
 
 ## UserMixin
