@@ -29,7 +29,7 @@ class UserMixin(object):
     password auth internally(maybe through openid?). But if you try to access
     the password then assertion raises.
 
-    >>> user = User(name='vital')
+    >>> user = User(email='vital@laptop')
     >>> user.password
     Traceback (most recent call last):
     ...
@@ -49,9 +49,9 @@ class UserMixin(object):
     # default password salt size(32)
     SALT_SIZE = 1<<5
 
-    def __init__(self, name, password=None):
+    def __init__(self, email, password=None):
         """Base init."""
-        self.name = name
+        self.email = email
         self.pswdhash = None
         if password:
             self.password = password

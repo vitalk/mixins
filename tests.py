@@ -13,8 +13,8 @@ def user_mixin():
     class User(UserMixin):
         pass
 
-    user = User(name='vital')
-    assert user.name == 'vital'
+    user = User(email='vital@laptop')
+    assert user.email == 'vital@laptop'
     # while password not set raise assertion error on access
     with raises(AssertionError):
         assert user.password
